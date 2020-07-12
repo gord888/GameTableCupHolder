@@ -1,5 +1,4 @@
 # GameTableCupHolder
-Game Tale Cup Holder OpenScad
 
 More details are available on thingiverse: https://www.thingiverse.com/thing:4534131/
 
@@ -9,17 +8,17 @@ This is a slick looking customizable cup holder.  It was designed after some oth
 
 
 <br/><br/>
-###What to Contribute?
+### What to Contribute?
 The source code is available for modification here: 
  https://github.com/gord888/GameTableCupHolder
 
 
 
 <br/><br/>
-###Example STLs
+### Example STLs
 The STLs attached here are what I used for my game table.  The thickness is sufficiently adjustable to work on ikea desks including the Galant and Skarsta.  Most folks will probably want to customize it to fit their table.
 <br/><br/>
-###Customizing
+### Customizing
 You'll need openscad to do this.
 
 1. download all the openscad files 
@@ -41,7 +40,7 @@ nut)
 cups that would just fall through otherwise.  You won't need the bottom plate for typical drinking glasses.
 
 <br/><br/>
-###References
+### References
 Bolts/Nuts provided are from here: 
 https://www.thingiverse.com/thing:193647
 
