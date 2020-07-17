@@ -10,7 +10,7 @@ $fn=30; //[10:Prototyping, 30:Printing, 50:Quality Print]
 
 
 // Part
-Part="slot"; // [top:Top Plate, bottom:Bottom Plate , slot:Slot Wedge, filler:Cup Holder Filler]
+Part="all"; // [top:Top Plate, bottom:Bottom Plate , slot:Slot Wedge, filler:Cup Holder Filler, all:All]
 
 
 //  This is the overall depth between the edge of the cup holder, to the centre of the bolts.  20mm to your required length to compensate for slot placement and middle rounded corner cube.  So if i need 90mm to clear my table, then x=90+20=110.  The dice tray will adjust to 80% of the size. Note: param is [length, width]
@@ -24,6 +24,10 @@ CupHolderSize=[90,95];
 
 // Cup holder diameter
 CupDiameter=40; //[35:Small, 40:Medium, 45:Large] 
+
+// Cup handle cutout
+CupHandleCutout=true; //[false:False, true:True]
+
 
 // This is how far away the bolt is from the edge.  I don't recommend changing this unless you have an awkward size that needs changing.
 BoltHoleOffset=13;
@@ -41,13 +45,13 @@ TextAlign=([2,7.5, 49]);
 
 // ---------------- MAIN -------------------
 
-if(Part == "top")
+if(Part == "top" || Part == "all")
 {
     // Top Plate with Slots
     topPlateWithSlots(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=    CupDiameter, thickness=Thickness);
 }
 
-if(Part == "slot")
+if(Part == "slot" || Part == "all")
 {
     // Wedge
     // call this to generate the wedge with the actual size
@@ -57,14 +61,14 @@ if(Part == "slot")
 
 
 
-if(Part == "bottom")
+if(Part == "bottom" || Part == "all")
 {
     // Bottom Plate
     translate([LedgeSize[0]-50,0,-Thickness - Thickness])
         bottomPlate(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=CupDiameter, thickness=Thickness);
 }
 
-if(Part == "filler")
+if(Part == "filler" || Part == "all")
 {
     // cup Filler Plate
     translate([150,47,-50])
@@ -178,8 +182,10 @@ module topPlateWithCupHole(ledge, cupHolderSize, cupSize, thickness, corners="zm
         }
 
         // handle cutout
-        translate([ledge[0] + (cupHolderSize[0]/2) - 20,ledge[1]/2,-2])
-            cube([30,cupSize+500,thickness + 10]);
+        if(CupHandleCutout) {
+            translate([ledge[0] + (cupHolderSize[0]/2) - 20,ledge[1]/2,-2])
+                cube([30,cupSize+500,thickness + 10]);
+        }
         
         // holes for bolts
         // these are a 13mm from the edge
