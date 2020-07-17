@@ -8,6 +8,11 @@ include <roundedcube.scad>;
 // Recommend at least 30 for printing.
 $fn=30; //[10:Prototyping, 30:Printing, 50:Quality Print]
 
+
+// Part
+Part="slot"; // [top:Top Plate, bottom:Bottom Plate , slot:Slot Wedge, filler:Cup Holder Filler]
+
+
 //  This is the overall depth between the edge of the cup holder, to the centre of the bolts.  20mm to your required length to compensate for slot placement and middle rounded corner cube.  So if i need 90mm to clear my table, then x=90+20=110.  The dice tray will adjust to 80% of the size. Note: param is [length, width]
 LedgeSize=[110,95]; 
 
@@ -27,29 +32,44 @@ BoltHoleOffset=13;
 BoltHoleRadius=5.25;
 
 
+// Text to put on the slot
+SlotText="GORDOX";
+
+// Text aligntment
+TextAlign=([2,7.5, 49]);
+
+
 // ---------------- MAIN -------------------
 
+if(Part == "top")
+{
+    // Top Plate with Slots
+    topPlateWithSlots(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=    CupDiameter, thickness=Thickness);
+}
 
-// Top Plate with Slots
-topPlateWithSlots(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=CupDiameter, thickness=Thickness);
-
-// Wedge
-// call this to generate the wedge with the actual size
-translate([-30,10,0])
-    plateWedge(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=CupDiameter, thickness=Thickness);
-
-
-
-
-// Bottom Plate
-translate([LedgeSize[0]-50,0,-Thickness - Thickness])
-    bottomPlate(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=CupDiameter, thickness=Thickness);
+if(Part == "slot")
+{
+    // Wedge
+    // call this to generate the wedge with the actual size
+    translate([-30,10,0])
+        plateWedge(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=CupDiameter, thickness=Thickness, text=SlotText);
+}
 
 
-// cup Filler Plate
-translate([150,47,-50])
-    cupFillerPlate(CupDiameter);
 
+if(Part == "bottom")
+{
+    // Bottom Plate
+    translate([LedgeSize[0]-50,0,-Thickness - Thickness])
+        bottomPlate(ledge=LedgeSize, cupHolderSize=CupHolderSize, cupSize=CupDiameter, thickness=Thickness);
+}
+
+if(Part == "filler")
+{
+    // cup Filler Plate
+    translate([150,47,-50])
+        cupFillerPlate(CupDiameter);
+}
 
 //------------------ MODULES ---------------------
 
@@ -70,24 +90,33 @@ module bottomPlate(ledge, cupHolderSize, cupSize, thickness)
 
 }
 
-module wedge(width, height, thickness)
+module wedge(width, height, thickness, text)
 {
-    hull(){
-        
-        // main
-        translate([0,0,height *4])
-            roundedcube([thickness, width, 2], false, 1);
-        
-        // taper down
-        translate([0,(width - width*.70)/2,0])
-            cube([thickness, width*.70, 1], false);
+    difference(){
+        hull(){
+            
+            // main
+            translate([0,0,height *4]) roundedcube([thickness, width, 2], false, 1, "x");
+                
+            //translate([0,0,height *4])                cube([thickness, width, 2], false, 1);
+            
+            // taper down
+            translate([0,(width - width*.70)/2,0]) roundedcube([thickness, width*.70, 1], false, 1, "x");        
+        }
+
+        // add text       
+        translate(TextAlign)
+        rotate([90,0,90])
+        linear_extrude(height=5){
+            #text(text=text, size=10, halign="left", valign="baseline", font="Arial Rounded MT Bold");
+        }
     }
 }
 
 // makes it smaller
-module plateWedge(ledge, cupHolderSize, cupSize, thickness)
+module plateWedge(ledge, cupHolderSize, cupSize, thickness, text)
 {
-    wedge(ledge[1] *.78 , thickness, 4.5 );
+    wedge(ledge[1] *.78 , thickness, 4.5, text );
 
 
 }
