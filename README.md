@@ -8,7 +8,7 @@ This is a slick looking customizable cup holder.  It was designed after some oth
 
 
 <br/><br/>
-### What to Contribute?
+### Want to Contribute?
 The source code is available for modification here: 
  https://github.com/gord888/GameTableCupHolder
 
